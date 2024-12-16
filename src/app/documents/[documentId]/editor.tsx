@@ -7,12 +7,16 @@ import TaskList from '@tiptap/extension-task-list'
 import Image from '@tiptap/extension-image'
 import ImageResize from 'tiptap-extension-resize-image'
 import Table from '@tiptap/extension-table'
+import Link from '@tiptap/extension-link'
 import TableCell from '@tiptap/extension-table-cell'
 import TableHeader from '@tiptap/extension-table-header'
 import TableRow from '@tiptap/extension-table-row'
 import Underline from '@tiptap/extension-underline'
 import FontFamily from '@tiptap/extension-font-family'
 import TextStyle from '@tiptap/extension-text-style'
+import { Color } from '@tiptap/extension-color'
+import Highlight from '@tiptap/extension-highlight'
+import TextAlign from '@tiptap/extension-text-align'
 import { useEditorStore } from '@/store/use-editor-store'
 
 
@@ -21,6 +25,7 @@ export const Editor = () => {
  const {setEditor} = useEditorStore();
 
   const editor = useEditor({
+    autofocus:true,
     onCreate({editor}) {
         setEditor(editor) 
     },
@@ -53,6 +58,11 @@ export const Editor = () => {
     },
     extensions: [
         StarterKit,
+        Link.configure({
+            openOnClick: false,
+            autolink: true,
+            defaultProtocol: 'https'
+        }),
         Image,
         ImageResize,
         TaskList,
@@ -67,7 +77,12 @@ export const Editor = () => {
           TableCell,
           Underline,
           FontFamily,
-          TextStyle
+          TextStyle,
+          Highlight.configure({ multicolor: true }),
+          Color,
+          TextAlign.configure({
+            types: ['heading', 'paragraph'],
+          })
     ],
     content: `
     <table>
