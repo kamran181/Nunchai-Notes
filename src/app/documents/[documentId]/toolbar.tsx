@@ -8,10 +8,102 @@ import { useEditorStore } from "@/store/use-editor-store";
 import {type Level} from "@tiptap/extension-heading";
 import { type ColorResult , SketchPicker} from "react-color"
 
-import { AlignLeftIcon, AlignRightIcon,AlignCenterIcon,AlignJustifyIcon,BoldIcon, ChevronDownIcon, HighlighterIcon, ImageIcon, ItalicIcon, Link2Icon, ListTodoIcon, LucideIcon, MessageSquarePlusIcon, PrinterIcon, Redo2Icon, RemoveFormattingIcon, SearchIcon, SpellCheckIcon, UnderlineIcon, Undo2Icon, UploadIcon, ListIcon, ListOrderedIcon } from "lucide-react";
+import { AlignLeftIcon, AlignRightIcon,AlignCenterIcon,AlignJustifyIcon,BoldIcon, ChevronDownIcon, HighlighterIcon, ImageIcon, ItalicIcon, Link2Icon, ListTodoIcon, LucideIcon, MessageSquarePlusIcon, PrinterIcon, Redo2Icon, RemoveFormattingIcon, SearchIcon, SpellCheckIcon, UnderlineIcon, Undo2Icon, UploadIcon, ListIcon, ListOrderedIcon, MinusIcon, PlusIcon } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+
+const FontSizeButton = ()=>{
+    const {editor} = useEditorStore();
+
+    const currentFontSize = editor?.getAttributes("textStyle").fontSize ? editor?.getAttributes("textStyle").fontSize.replace("px","") : "16";
+
+    const [fontSize,setFontSize] = useState(currentFontSize);
+    const [inputValue , setInputValue] = useState(currentFontSize);
+    const [isEditable, setIsEditable] = useState(false);
+
+    const updateFontSize = (newSize : string)=>{
+        const size = parseInt(newSize);
+
+        if(!isNaN(size) && size >0){
+          editor?.chain().focus().setFontSize(`${size}px`).run();
+          setFontSize(size);
+          setInputValue(size);
+          setIsEditable(false);
+        }
+    }
+
+    const handleInputChange =(e : React.ChangeEvent<HTMLInputElement>)=>{
+       setInputValue(e.target.value);
+
+    }
+
+    const handleInputBlur = ()=>{
+        updateFontSize(inputValue);
+    }
+
+    const handleEnterKey = (e: React.KeyboardEvent<HTMLInputElement>)=>{
+        if(e.key === 'Enter'){
+            e.preventDefault();
+            updateFontSize(inputValue);
+            editor?.commands.focus()
+        }
+    }
+
+    const incrementFontSize =()=>{
+        const newSize = parseInt(fontSize) + 1;
+        updateFontSize(newSize.toString());
+    }
+
+    const decrementFontSize =()=>{
+        const newSize = parseInt(fontSize) - 1;
+        if( newSize> 0){
+         updateFontSize(newSize.toString());    
+        }
+    }
+
+
+    return(
+        <div className="flex items-center gap-x-0.5">
+            <button
+              onClick={decrementFontSize}
+              className="h-7 w-7  items-center justify-center  shrink-0 flex rounded-sm hover:bg-neutral-200/80"
+            >
+              <MinusIcon className="size-4"/>
+            </button>
+            {isEditable ?(
+                <input 
+                 type="text"
+                 value={inputValue}
+                 onChange={handleInputChange}
+                 onBlur={handleInputBlur}
+                 onKeyDown={handleEnterKey}
+                 className="h-7 w-10 text-sm  border border-neutral-400 text-center rounded-sm bg-transparent focus:outline-none focus:ring-0 cursor-text"
+                />
+            ):(
+                <button
+                 onClick={()=>{
+                    setIsEditable(true)
+                    setFontSize(currentFontSize)
+                 }
+                }
+                 className="h-7 w-10 text-sm  border border-neutral-400 text-center rounded-sm hover:bg-neutral-200/80 cursor-text"  
+                >
+                 {currentFontSize}
+                </button>
+            )
+        }
+
+            <button
+              onClick={incrementFontSize}
+              className="h-7 w-7  items-center justify-center  shrink-0 flex rounded-sm hover:bg-neutral-200/80"
+            >
+              <PlusIcon className="size-4"/>
+            </button>
+
+        </div>
+    )
+}
 
 const ListButton = ()=>{
     const {editor} = useEditorStore();
@@ -511,6 +603,9 @@ export const Toolbar = ()=>{
 
     <Separator orientation="vertical" className="h-6 bg-neutral-300"/>
 
+    <FontSizeButton/>
+
+    <Separator orientation="vertical" className="h-6 bg-neutral-300"/>
 
     {sections[1].map((item)=>(
         <ToolbarButton key={item.label} {...item}/>
