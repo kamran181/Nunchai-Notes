@@ -60,5 +60,5 @@ export const FontSizeExtension = Extension.create({
       },
     }
   },
-})
+});
 
