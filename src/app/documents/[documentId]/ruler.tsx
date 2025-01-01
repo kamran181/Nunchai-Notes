@@ -77,6 +77,6 @@ const Marker = ({
     >
 
     <FaCaretDown className="absolute left-1/2 top-0 h-full fill-blue-500 transform -translate-x-1/2" />
-   </div>
+   </div> 
     );
 }
