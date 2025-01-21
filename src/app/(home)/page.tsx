@@ -4,6 +4,7 @@ import { Navbar } from './navbar';
 import { TemplatesGallery } from './templates-gallery';
 import { useQuery } from 'convex/react';
 import { api } from '../../../convex/_generated/api';
+import { FullScreenLoader } from '@/components/fullscreen-loader';
 
 const Home = () => {
 
@@ -12,7 +13,7 @@ const Home = () => {
   if(documents === undefined){
     return (
      <div className='flex justify-center items-center min-h-screen'>
-       <p>Loading...</p>
+       <FullScreenLoader/>
      </div> 
     )
   }
