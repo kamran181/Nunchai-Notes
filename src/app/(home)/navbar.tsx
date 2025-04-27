@@ -15,7 +15,12 @@ export const Navbar = ()=>{
             
              <SearchInput/>
              <div className="flex gap-3 items-center pl-3">
-              <OrganizationSwitcher/>
+              <OrganizationSwitcher
+               afterCreateOrganizationUrl="/"
+               afterLeaveOrganizationUrl="/"
+               afterSelectOrganizationUrl="/"
+               afterSelectPersonalUrl="/"
+              />
              <UserButton />
              </div>
              
