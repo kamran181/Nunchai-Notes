@@ -9,8 +9,13 @@ import { useEditorStore } from "@/store/use-editor-store"
 import { OrganizationSwitcher, UserButton } from "@clerk/nextjs"
 import { Avatars } from "./avatar"
 import { Inbox } from "./inbox"
+import { Doc } from "../../../../convex/_generated/dataModel"
 
-export const Navbar = ()=>{
+interface NavbarProps{
+    data:Doc<'documents'>
+}
+
+export const Navbar = ({data}:NavbarProps)=>{
 
     const {editor} = useEditorStore();
 
@@ -37,7 +42,7 @@ export const Navbar = ()=>{
             type: "application/json"
         })
 
-        onDownload(blob, 'document.json');
+        onDownload(blob, `${data.title}.json`);
 
     }
 
@@ -49,7 +54,7 @@ export const Navbar = ()=>{
             type: "text/html"
         })
 
-        onDownload(blob, 'document.html');
+        onDownload(blob, `${data.title}.html`);
 
     }
 
@@ -61,7 +66,7 @@ export const Navbar = ()=>{
             type: "text/plain"
         })
 
-        onDownload(blob, 'document.txt');
+        onDownload(blob, `${data.title}txt`);
 
     }
     
@@ -72,7 +77,7 @@ export const Navbar = ()=>{
             <Image src="/logo.svg" alt="Logo"  width={36} height={36} />
             </Link> 
             <div className="flex flex-col">
-            <DocumnetInput /> 
+            <DocumnetInput title={data.title} id={data._id} /> 
             <div className="flex">
               <Menubar className="border-none bg-transparent shadow-none p-0 h-auto">
                  <MenubarMenu>
