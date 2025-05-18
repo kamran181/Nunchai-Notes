@@ -2,7 +2,7 @@ import { useMutation } from "convex/react";
 import { useRef, useState } from "react";
 import {BsCloudCheck, BsCloudSlash} from "react-icons/bs"
 import { api } from "../../../../convex/_generated/api";
-import { useDebounce } from "@/hooks/uswe-debounce";
+import { useDebounce } from "@/hooks/use-debounce";
 import { Id } from "../../../../convex/_generated/dataModel";
 import { toast } from "sonner";
 import { useStatus } from "@liveblocks/react";
