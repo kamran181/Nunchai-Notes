@@ -24,6 +24,7 @@ export function Room({ children }: { children: ReactNode }) {
           const users = await getUsers();
           setUsers(users)
         } catch (error) {
+          console.log("🚀 ~ error:", error)
           toast.error("Error while fetching users")
         }
       },[]
@@ -53,7 +54,7 @@ export function Room({ children }: { children: ReactNode }) {
         )
       }}
       resolveMentionSuggestions={({text})=>{
-        let filteredUsers = users;
+        const filteredUsers = users;
 
         if(text){
           filteredUsers.filter((user)=>{

@@ -52,7 +52,7 @@ export const Navbar = ({data}:NavbarProps)=>{
        const a = document.createElement("a");
 
        a.href = url;
-       a.download = filename,
+       a.download = filename;
        a.click()
     };
 
